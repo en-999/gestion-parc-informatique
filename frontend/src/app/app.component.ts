@@ -12,6 +12,7 @@ import { EquipmentService } from './equipment.service';
 export class AppComponent {
   equipments: Equipment[] = [];
   newEquipment: Omit<Equipment, 'id'> = this.emptyEquipment();
+  editingEquipmentId: number | null = null;
   loading = true;
   submitting = false;
   errorMessage = '';
@@ -50,6 +51,47 @@ export class AppComponent {
       error: () => {
         this.submitting = false;
         this.errorMessage = 'Impossible d’enregistrer l’équipement.';
+      }
+    });
+  }
+
+  editEquipment(equipment: Equipment): void {
+    this.editingEquipmentId = equipment.id;
+    this.newEquipment = {
+      inventoryNumber: equipment.inventoryNumber,
+      name: equipment.name,
+      type: equipment.type,
+      status: equipment.status
+    };
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  cancelEdit(): void {
+    this.editingEquipmentId = null;
+    this.newEquipment = this.emptyEquipment();
+    this.errorMessage = '';
+  }
+
+  updateEquipment(): void {
+    if (this.editingEquipmentId === null) {
+      return;
+    }
+
+    this.submitting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.equipmentService.update(this.editingEquipmentId, this.newEquipment).subscribe({
+      next: (equipment) => {
+        this.equipments = this.equipments.map((item) => item.id === equipment.id ? equipment : item);
+        this.editingEquipmentId = null;
+        this.newEquipment = this.emptyEquipment();
+        this.submitting = false;
+        this.successMessage = 'Équipement modifié avec succès.';
+      },
+      error: () => {
+        this.submitting = false;
+        this.errorMessage = 'Impossible de modifier l’équipement.';
       }
     });
   }

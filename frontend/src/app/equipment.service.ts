@@ -17,6 +17,10 @@ export class EquipmentService {
     return this.http.post<Equipment>(this.apiUrl, equipment);
   }
 
+  update(id: number, equipment: Omit<Equipment, 'id'>): Observable<Equipment> {
+    return this.http.put<Equipment>(`${this.apiUrl}/${id}`, equipment);
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

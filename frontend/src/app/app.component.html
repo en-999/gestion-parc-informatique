@@ -8,11 +8,17 @@
     <span class="count">{{ equipments.length }} équipement{{ equipments.length > 1 ? 's' : '' }}</span>
   </header>
 
-  <section class="panel form-panel" aria-labelledby="create-equipment-title">
+  <section class="panel form-panel" aria-labelledby="equipment-form-title">
     <div class="panel-header">
-      <h2 id="create-equipment-title">Ajouter un équipement</h2>
+      <h2 id="equipment-form-title">
+        {{ editingEquipmentId === null ? 'Ajouter un équipement' : 'Modifier un équipement' }}
+      </h2>
     </div>
-    <form class="equipment-form" (ngSubmit)="createEquipment()" #equipmentForm="ngForm">
+    <form
+      class="equipment-form"
+      (ngSubmit)="editingEquipmentId === null ? createEquipment() : updateEquipment()"
+      #equipmentForm="ngForm"
+    >
       <label>
         N° inventaire
         <input
@@ -34,9 +40,16 @@
         Statut
         <input name="status" [(ngModel)]="newEquipment.status" required placeholder="Ex. En service" />
       </label>
-      <button class="submit-button" type="submit" [disabled]="equipmentForm.invalid || submitting">
-        {{ submitting ? 'Enregistrement…' : 'Enregistrer' }}
-      </button>
+      <div class="form-actions">
+        <button class="submit-button" type="submit" [disabled]="equipmentForm.invalid || submitting">
+          {{ submitting ? 'Enregistrement…' : editingEquipmentId === null ? 'Enregistrer' : 'Modifier' }}
+        </button>
+        @if (editingEquipmentId !== null) {
+          <button class="cancel-button" type="button" (click)="cancelEdit()" [disabled]="submitting">
+            Annuler
+          </button>
+        }
+      </div>
     </form>
   </section>
 
@@ -72,6 +85,9 @@
                 <td>{{ equipment.type }}</td>
                 <td><span class="status">{{ equipment.status }}</span></td>
                 <td class="actions">
+                  <button type="button" class="edit-button" (click)="editEquipment(equipment)">
+                    Modifier
+                  </button>
                   <button type="button" class="delete-button" (click)="deleteEquipment(equipment.id)">
                     Supprimer
                   </button>
