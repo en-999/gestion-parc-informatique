@@ -11,6 +11,8 @@ import { EquipmentService } from './equipment.service';
 })
 export class AppComponent {
   equipments: Equipment[] = [];
+  searchTerm = '';
+  statusFilter = '';
   newEquipment: Omit<Equipment, 'id'> = this.emptyEquipment();
   editingEquipmentId: number | null = null;
   loading = true;
@@ -20,6 +22,22 @@ export class AppComponent {
 
   constructor(private readonly equipmentService: EquipmentService) {
     this.loadEquipments();
+  }
+
+  get filteredEquipments(): Equipment[] {
+    const search = this.searchTerm.trim().toLowerCase();
+    return this.equipments.filter((equipment) => {
+      const matchesSearch = !search
+        || [equipment.inventoryNumber, equipment.name, equipment.type]
+          .some((value) => value.toLowerCase().includes(search));
+      const matchesStatus = !this.statusFilter || equipment.status === this.statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }
+
+  get statuses(): string[] {
+    return [...new Set(this.equipments.map((equipment) => equipment.status))]
+      .sort((first, second) => first.localeCompare(second));
   }
 
   loadEquipments(): void {

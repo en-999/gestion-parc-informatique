@@ -5,7 +5,9 @@
       <h1>Équipements</h1>
       <p class="subtitle">Consultez et gérez les équipements informatiques de l'organisation.</p>
     </div>
-    <span class="count">{{ equipments.length }} équipement{{ equipments.length > 1 ? 's' : '' }}</span>
+    <span class="count">
+      {{ filteredEquipments.length }} équipement{{ filteredEquipments.length > 1 ? 's' : '' }}
+    </span>
   </header>
 
   <section class="panel form-panel" aria-labelledby="equipment-form-title">
@@ -59,12 +61,40 @@
       <button type="button" class="refresh-button" (click)="loadEquipments()">Actualiser</button>
     </div>
 
+    <div class="filters" role="search">
+      <label>
+        Rechercher
+        <input
+          type="search"
+          [(ngModel)]="searchTerm"
+          placeholder="N° inventaire, nom ou type"
+          aria-label="Rechercher un équipement"
+        />
+      </label>
+      <label>
+        Statut
+        <select [(ngModel)]="statusFilter" aria-label="Filtrer par statut">
+          <option value="">Tous les statuts</option>
+          @for (status of statuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </label>
+      @if (searchTerm || statusFilter) {
+        <button type="button" class="clear-filters-button" (click)="searchTerm = ''; statusFilter = ''">
+          Réinitialiser
+        </button>
+      }
+    </div>
+
     @if (loading) {
       <p class="message">Chargement des équipements…</p>
     } @else if (errorMessage) {
       <p class="message error" role="alert">{{ errorMessage }}</p>
     } @else if (equipments.length === 0) {
       <p class="message">Aucun équipement n'est encore enregistré.</p>
+    } @else if (filteredEquipments.length === 0) {
+      <p class="message">Aucun équipement ne correspond aux critères de recherche.</p>
     } @else {
       <div class="table-wrapper">
         <table>
@@ -78,7 +108,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (equipment of equipments; track equipment.id) {
+            @for (equipment of filteredEquipments; track equipment.id) {
               <tr>
                 <td>{{ equipment.inventoryNumber }}</td>
                 <td>{{ equipment.name }}</td>

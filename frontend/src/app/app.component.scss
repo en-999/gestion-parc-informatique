@@ -141,6 +141,36 @@ button {
   color: #1d4ed8;
 }
 
+.filters {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.filters label {
+  flex: 1;
+  max-width: 24rem;
+}
+
+select {
+  padding: .65rem .75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: .5rem;
+  background: #fff;
+  color: #334155;
+  font: inherit;
+  font-size: .875rem;
+}
+
+.clear-filters-button {
+  padding: .65rem .85rem;
+  background: #fff;
+  color: #475569;
+}
+
 .message {
   margin: 0;
   padding: 3rem 1.5rem;
@@ -250,6 +280,15 @@ td {
 
   .equipment-form {
     grid-template-columns: 1fr;
+  }
+
+  .filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .filters label {
+    max-width: none;
   }
 
   .form-actions {
