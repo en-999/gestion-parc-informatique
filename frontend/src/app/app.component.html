@@ -10,6 +10,15 @@
     </span>
   </header>
 
+  <section class="stats-grid" aria-label="Résumé du parc informatique">
+    @for (stat of equipmentStats; track stat.label) {
+      <article [class]="'stat-card ' + stat.tone">
+        <p>{{ stat.label }}</p>
+        <strong>{{ stat.value }}</strong>
+      </article>
+    }
+  </section>
+
   <section class="panel form-panel" aria-labelledby="equipment-form-title">
     <div class="panel-header">
       <h2 id="equipment-form-title">

@@ -43,6 +43,15 @@ export class AppComponent {
       .sort((first, second) => first.localeCompare(second));
   }
 
+  get equipmentStats(): { label: string; value: number; tone: string }[] {
+    return [
+      { label: 'Total', value: this.equipments.length, tone: 'blue' },
+      { label: 'En service', value: this.countByStatus('en service'), tone: 'green' },
+      { label: 'En maintenance', value: this.countByStatus('maintenance'), tone: 'orange' },
+      { label: 'Hors service', value: this.countByStatus('hors service'), tone: 'red' }
+    ];
+  }
+
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.filteredEquipments.length / this.pageSize));
   }
@@ -158,6 +167,10 @@ export class AppComponent {
       type: '',
       status: ''
     };
+  }
+
+  private countByStatus(status: string): number {
+    return this.equipments.filter((equipment) => equipment.status.trim().toLowerCase() === status).length;
   }
 
   private getSaveErrorMessage(error: HttpErrorResponse, action = 'enregistrer'): string {
