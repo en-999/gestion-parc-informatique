@@ -33,7 +33,7 @@ export class AppComponent {
     const search = this.searchTerm.trim().toLowerCase();
     return this.equipments.filter((equipment) => {
       const matchesSearch = !search
-        || [equipment.inventoryNumber, equipment.name, equipment.type]
+        || [equipment.inventoryNumber, equipment.name, equipment.type, equipment.provenance || '']
           .some((value) => value.toLowerCase().includes(search));
       const matchesStatus = !this.statusFilter || equipment.status === this.statusFilter;
       return matchesSearch && matchesStatus;
@@ -112,7 +112,8 @@ export class AppComponent {
       inventoryNumber: equipment.inventoryNumber,
       name: equipment.name,
       type: equipment.type,
-      status: equipment.status
+      status: equipment.status,
+      provenance: equipment.provenance ?? ''
     };
     this.errorMessage = '';
     this.successMessage = '';
@@ -167,7 +168,8 @@ export class AppComponent {
       inventoryNumber: '',
       name: '',
       type: '',
-      status: ''
+      status: '',
+      provenance: ''
     };
   }
 

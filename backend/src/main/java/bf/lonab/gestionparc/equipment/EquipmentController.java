@@ -65,10 +65,11 @@ public class EquipmentController {
                 || isBlank(equipment.getInventoryNumber())
                 || isBlank(equipment.getName())
                 || isBlank(equipment.getType())
-                || isBlank(equipment.getStatus())) {
+                || isBlank(equipment.getStatus())
+                || isBlank(equipment.getProvenance())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Les champs inventoryNumber, name, type et status sont obligatoires"
+                    "Les champs inventoryNumber, name, type, status et provenance sont obligatoires"
             );
         }
     }

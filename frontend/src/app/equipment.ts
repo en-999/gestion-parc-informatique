@@ -4,4 +4,5 @@ export interface Equipment {
   name: string;
   type: string;
   status: string;
+  provenance: string;
 }

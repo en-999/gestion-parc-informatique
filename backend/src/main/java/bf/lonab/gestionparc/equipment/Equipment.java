@@ -19,6 +19,7 @@ public class Equipment {
     private String name;
     private String type;
     private String status;
+    private String provenance;
 
     public Equipment() {
     }
@@ -69,5 +70,13 @@ public class Equipment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getProvenance() {
+        return provenance;
+    }
+
+    public void setProvenance(String provenance) {
+        this.provenance = provenance;
     }
 }

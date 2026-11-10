@@ -61,6 +61,15 @@
           }
         </select>
       </label>
+      <label>
+        Provenance
+        <input
+          name="provenance"
+          [(ngModel)]="newEquipment.provenance"
+          required
+          placeholder="Ex. Acquisition, don, transfert"
+        />
+      </label>
       <div class="form-actions">
         <button class="submit-button" type="submit" [disabled]="equipmentForm.invalid || submitting">
           {{ submitting ? 'Enregistrement…' : editingEquipmentId === null ? 'Enregistrer' : 'Modifier' }}
@@ -124,6 +133,7 @@
               <th>Nom</th>
               <th>Type</th>
               <th>Statut</th>
+              <th>Provenance</th>
               <th><span class="sr-only">Actions</span></th>
             </tr>
           </thead>
@@ -134,6 +144,7 @@
                 <td>{{ equipment.name }}</td>
                 <td>{{ equipment.type }}</td>
                 <td><span class="status">{{ equipment.status }}</span></td>
+                <td>{{ equipment.provenance || 'Non renseignée' }}</td>
                 <td class="actions">
                   <button type="button" class="edit-button" (click)="editEquipment(equipment)">
                     Modifier
