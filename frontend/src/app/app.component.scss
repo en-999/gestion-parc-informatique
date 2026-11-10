@@ -144,6 +144,11 @@ input:focus {
   outline: 2px solid #bfdbfe;
 }
 
+select:focus {
+  border-color: #2563eb;
+  outline: 2px solid #bfdbfe;
+}
+
 button {
   border: 0;
   border-radius: .5rem;

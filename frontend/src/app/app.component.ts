@@ -16,6 +16,8 @@ export class AppComponent {
   statusFilter = '';
   currentPage = 1;
   readonly pageSize = 10;
+  readonly equipmentTypes = ['Ordinateur portable', 'Ordinateur de bureau', 'Écran', 'Imprimante', 'Serveur', 'Réseau', 'Autre'];
+  readonly equipmentStatuses = ['En service', 'En maintenance', 'Hors service', 'Stock'];
   newEquipment: Omit<Equipment, 'id'> = this.emptyEquipment();
   editingEquipmentId: number | null = null;
   loading = true;

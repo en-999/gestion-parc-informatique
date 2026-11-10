@@ -45,11 +45,21 @@
       </label>
       <label>
         Type
-        <input name="type" [(ngModel)]="newEquipment.type" required placeholder="Ex. Ordinateur portable" />
+        <select name="type" [(ngModel)]="newEquipment.type" required>
+          <option value="" disabled>Sélectionner un type</option>
+          @for (type of equipmentTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
       </label>
       <label>
         Statut
-        <input name="status" [(ngModel)]="newEquipment.status" required placeholder="Ex. En service" />
+        <select name="status" [(ngModel)]="newEquipment.status" required>
+          <option value="" disabled>Sélectionner un statut</option>
+          @for (status of equipmentStatuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
       </label>
       <div class="form-actions">
         <button class="submit-button" type="submit" [disabled]="equipmentForm.invalid || submitting">
