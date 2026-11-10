@@ -35,6 +35,7 @@ public class EquipmentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Equipment create(@RequestBody Equipment equipment) {
         validate(equipment);
+        ensureInventoryNumberAvailable(equipment.getInventoryNumber(), null);
         equipment.setId(null);
         return equipmentRepository.save(equipment);
     }
@@ -45,6 +46,7 @@ public class EquipmentController {
         if (!equipmentRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Équipement introuvable");
         }
+        ensureInventoryNumberAvailable(equipment.getInventoryNumber(), id);
         equipment.setId(id);
         return equipmentRepository.save(equipment);
     }
@@ -67,6 +69,18 @@ public class EquipmentController {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Les champs inventoryNumber, name, type et status sont obligatoires"
+            );
+        }
+    }
+
+    private void ensureInventoryNumberAvailable(String inventoryNumber, Long currentId) {
+        boolean alreadyUsed = currentId == null
+                ? equipmentRepository.existsByInventoryNumberIgnoreCase(inventoryNumber)
+                : equipmentRepository.existsByInventoryNumberIgnoreCaseAndIdNot(inventoryNumber, currentId);
+        if (alreadyUsed) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Le numéro d'inventaire est déjà utilisé"
             );
         }
     }

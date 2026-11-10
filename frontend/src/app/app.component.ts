@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Equipment } from './equipment';
 import { EquipmentService } from './equipment.service';
@@ -66,9 +67,9 @@ export class AppComponent {
         this.submitting = false;
         this.successMessage = 'Équipement enregistré avec succès.';
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.submitting = false;
-        this.errorMessage = 'Impossible d’enregistrer l’équipement.';
+        this.errorMessage = this.getSaveErrorMessage(error);
       }
     });
   }
@@ -107,9 +108,9 @@ export class AppComponent {
         this.submitting = false;
         this.successMessage = 'Équipement modifié avec succès.';
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.submitting = false;
-        this.errorMessage = 'Impossible de modifier l’équipement.';
+        this.errorMessage = this.getSaveErrorMessage(error, 'modifier');
       }
     });
   }
@@ -135,5 +136,12 @@ export class AppComponent {
       type: '',
       status: ''
     };
+  }
+
+  private getSaveErrorMessage(error: HttpErrorResponse, action = 'enregistrer'): string {
+    if (error.status === 409) {
+      return 'Ce numéro d’inventaire est déjà utilisé.';
+    }
+    return `Impossible de ${action} l’équipement.`;
   }
 }
