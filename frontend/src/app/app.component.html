@@ -8,6 +8,38 @@
     <span class="count">{{ equipments.length }} équipement{{ equipments.length > 1 ? 's' : '' }}</span>
   </header>
 
+  <section class="panel form-panel" aria-labelledby="create-equipment-title">
+    <div class="panel-header">
+      <h2 id="create-equipment-title">Ajouter un équipement</h2>
+    </div>
+    <form class="equipment-form" (ngSubmit)="createEquipment()" #equipmentForm="ngForm">
+      <label>
+        N° inventaire
+        <input
+          name="inventoryNumber"
+          [(ngModel)]="newEquipment.inventoryNumber"
+          required
+          placeholder="Ex. PC-001"
+        />
+      </label>
+      <label>
+        Nom
+        <input name="name" [(ngModel)]="newEquipment.name" required placeholder="Ex. Dell Latitude" />
+      </label>
+      <label>
+        Type
+        <input name="type" [(ngModel)]="newEquipment.type" required placeholder="Ex. Ordinateur portable" />
+      </label>
+      <label>
+        Statut
+        <input name="status" [(ngModel)]="newEquipment.status" required placeholder="Ex. En service" />
+      </label>
+      <button class="submit-button" type="submit" [disabled]="equipmentForm.invalid || submitting">
+        {{ submitting ? 'Enregistrement…' : 'Enregistrer' }}
+      </button>
+    </form>
+  </section>
+
   <section class="panel" aria-labelledby="equipment-title">
     <div class="panel-header">
       <h2 id="equipment-title">Inventaire</h2>
@@ -51,4 +83,11 @@
       </div>
     }
   </section>
+
+  @if (successMessage) {
+    <p class="feedback success" role="status">{{ successMessage }}</p>
+  }
+  @if (errorMessage) {
+    <p class="feedback error" role="alert">{{ errorMessage }}</p>
+  }
 </main>

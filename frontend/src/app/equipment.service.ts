@@ -13,6 +13,10 @@ export class EquipmentService {
     return this.http.get<Equipment[]>(this.apiUrl);
   }
 
+  create(equipment: Omit<Equipment, 'id'>): Observable<Equipment> {
+    return this.http.post<Equipment>(this.apiUrl, equipment);
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
