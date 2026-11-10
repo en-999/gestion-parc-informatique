@@ -12,40 +12,39 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/api/equipments")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EquipmentController {
 
-    private final ConcurrentMap<Long, Equipment> equipments = new ConcurrentHashMap<>();
-    private final AtomicLong nextId = new AtomicLong(1);
+    private final EquipmentRepository equipmentRepository;
+
+    public EquipmentController(EquipmentRepository equipmentRepository) {
+        this.equipmentRepository = equipmentRepository;
+    }
 
     @GetMapping
     public List<Equipment> findAll() {
-        return new ArrayList<>(equipments.values());
+        return equipmentRepository.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Equipment create(@RequestBody Equipment equipment) {
         validate(equipment);
-        equipment.setId(nextId.getAndIncrement());
-        equipments.put(equipment.getId(), equipment);
-        return equipment;
+        equipment.setId(null);
+        return equipmentRepository.save(equipment);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        if (equipments.remove(id) == null) {
+        if (!equipmentRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Équipement introuvable");
         }
+        equipmentRepository.deleteById(id);
     }
 
     private void validate(Equipment equipment) {
