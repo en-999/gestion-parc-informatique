@@ -67,13 +67,14 @@
         <input
           type="search"
           [(ngModel)]="searchTerm"
+          (ngModelChange)="onFiltersChange()"
           placeholder="N° inventaire, nom ou type"
           aria-label="Rechercher un équipement"
         />
       </label>
       <label>
         Statut
-        <select [(ngModel)]="statusFilter" aria-label="Filtrer par statut">
+        <select [(ngModel)]="statusFilter" (ngModelChange)="onFiltersChange()" aria-label="Filtrer par statut">
           <option value="">Tous les statuts</option>
           @for (status of statuses; track status) {
             <option [value]="status">{{ status }}</option>
@@ -81,7 +82,7 @@
         </select>
       </label>
       @if (searchTerm || statusFilter) {
-        <button type="button" class="clear-filters-button" (click)="searchTerm = ''; statusFilter = ''">
+        <button type="button" class="clear-filters-button" (click)="searchTerm = ''; statusFilter = ''; onFiltersChange()">
           Réinitialiser
         </button>
       }
@@ -108,7 +109,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (equipment of filteredEquipments; track equipment.id) {
+            @for (equipment of paginatedEquipments; track equipment.id) {
               <tr>
                 <td>{{ equipment.inventoryNumber }}</td>
                 <td>{{ equipment.name }}</td>
@@ -127,6 +128,17 @@
           </tbody>
         </table>
       </div>
+      @if (totalPages > 1) {
+        <nav class="pagination" aria-label="Pagination des équipements">
+          <button type="button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+            Précédente
+          </button>
+          <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+          <button type="button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+            Suivante
+          </button>
+        </nav>
+      }
     }
   </section>
 

@@ -14,6 +14,8 @@ export class AppComponent {
   equipments: Equipment[] = [];
   searchTerm = '';
   statusFilter = '';
+  currentPage = 1;
+  readonly pageSize = 10;
   newEquipment: Omit<Equipment, 'id'> = this.emptyEquipment();
   editingEquipmentId: number | null = null;
   loading = true;
@@ -41,12 +43,30 @@ export class AppComponent {
       .sort((first, second) => first.localeCompare(second));
   }
 
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredEquipments.length / this.pageSize));
+  }
+
+  get paginatedEquipments(): Equipment[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredEquipments.slice(start, start + this.pageSize);
+  }
+
+  onFiltersChange(): void {
+    this.currentPage = 1;
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = Math.min(Math.max(page, 1), this.totalPages);
+  }
+
   loadEquipments(): void {
     this.loading = true;
     this.errorMessage = '';
     this.equipmentService.findAll().subscribe({
       next: (equipments) => {
         this.equipments = equipments;
+        this.goToPage(this.currentPage);
         this.loading = false;
       },
       error: () => {
@@ -63,6 +83,7 @@ export class AppComponent {
     this.equipmentService.create(this.newEquipment).subscribe({
       next: (equipment) => {
         this.equipments = [...this.equipments, equipment];
+        this.goToPage(this.currentPage);
         this.newEquipment = this.emptyEquipment();
         this.submitting = false;
         this.successMessage = 'Équipement enregistré avec succès.';
@@ -121,6 +142,7 @@ export class AppComponent {
     this.equipmentService.delete(id).subscribe({
       next: () => {
         this.equipments = this.equipments.filter((equipment) => equipment.id !== id);
+        this.goToPage(this.currentPage);
         this.successMessage = 'Équipement supprimé avec succès.';
       },
       error: () => {
