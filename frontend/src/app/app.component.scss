@@ -365,7 +365,7 @@ h2 {
 
 .equipment-form {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   padding: 1.5rem;
 }
@@ -414,9 +414,13 @@ button {
 }
 
 .form-actions {
+  grid-column: 1 / -1;
   display: flex;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: center;
   gap: .5rem;
+  padding-top: .5rem;
+  border-top: 1px solid #f1f5f9;
 }
 
 .cancel-button {
@@ -622,7 +626,7 @@ td {
   }
 
   .equipment-form {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .filters {
@@ -635,12 +639,17 @@ td {
   }
 
   .form-actions {
+    grid-column: 1 / -1;
     align-items: stretch;
     flex-direction: column;
   }
 }
 
 @media (max-width: 400px) {
+  .equipment-form {
+    grid-template-columns: 1fr;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }
