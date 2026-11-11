@@ -2,6 +2,97 @@
   display: block;
 }
 
+.login-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(circle at 15% 15%, rgb(37 99 235 / 14%), transparent 32rem),
+    #f8fafc;
+}
+
+.login-card {
+  width: min(100%, 28rem);
+  padding: 2.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 24px 60px rgb(15 23 42 / 12%);
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 3rem;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: .75rem;
+  background: #2563eb;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.brand-name {
+  margin: 0;
+  color: #172033;
+  font-weight: 700;
+}
+
+.login-heading h1 {
+  margin-bottom: .65rem;
+  color: #172033;
+  font-size: 2.25rem;
+}
+
+.login-heading > p:last-child {
+  margin-bottom: 2rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.login-form {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.login-button {
+  margin-top: .35rem;
+  padding: .8rem 1rem;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+}
+
+.login-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.login-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: .875rem;
+}
+
+.login-note {
+  margin: 1.75rem 0 0;
+  color: #94a3b8;
+  font-size: .75rem;
+  text-align: center;
+}
+
+.login-loading {
+  color: #64748b;
+}
+
 .dashboard {
   max-width: 1180px;
   margin: 0 auto;
@@ -14,6 +105,23 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1.5rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.logout-button {
+  padding: .55rem .85rem;
+  background: #fff;
+  color: #475569;
+  box-shadow: inset 0 0 0 1px #cbd5e1;
+}
+
+.logout-button:hover {
+  background: #f8fafc;
 }
 
 .eyebrow {
@@ -334,12 +442,21 @@ td {
 }
 
 @media (max-width: 640px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
   .dashboard {
     padding: 2rem 1rem;
   }
 
   .page-header {
     display: block;
+  }
+
+  .header-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .stats-grid {

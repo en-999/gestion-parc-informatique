@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Equipment, EquipmentPayload } from './equipment';
 import { EquipmentService } from './equipment.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,11 @@ import { EquipmentService } from './equipment.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  isAuthenticated = false;
+  authChecking = true;
+  loginUsername = '';
+  loginPassword = '';
+  loginError = '';
   equipments: Equipment[] = [];
   searchTerm = '';
   statusFilter = '';
@@ -25,8 +31,55 @@ export class AppComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private readonly equipmentService: EquipmentService) {
-    this.loadEquipments();
+  constructor(
+    private readonly equipmentService: EquipmentService,
+    private readonly authService: AuthService
+  ) {
+    this.authService.currentUser().subscribe({
+      next: () => {
+        this.isAuthenticated = true;
+        this.authChecking = false;
+        this.loadEquipments();
+      },
+      error: () => {
+        this.authChecking = false;
+      }
+    });
+  }
+
+  login(): void {
+    this.loginError = '';
+    if (!this.loginUsername.trim() || !this.loginPassword) {
+      this.loginError = 'Veuillez renseigner votre identifiant et votre mot de passe.';
+      return;
+    }
+
+    this.authService.login(this.loginUsername, this.loginPassword).subscribe({
+      next: () => {
+        this.isAuthenticated = true;
+        this.loadEquipments();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loginError = error.status === 401
+          ? 'Identifiant ou mot de passe invalide.'
+          : 'La connexion est momentanément indisponible.';
+      }
+    });
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => this.resetAuthentication(),
+      error: () => this.resetAuthentication()
+    });
+  }
+
+  private resetAuthentication(): void {
+    this.isAuthenticated = false;
+    this.loginUsername = '';
+    this.loginPassword = '';
+    this.loginError = '';
+    this.equipments = [];
   }
 
   get filteredEquipments(): Equipment[] {

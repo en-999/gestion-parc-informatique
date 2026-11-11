@@ -10,18 +10,18 @@ export class EquipmentService {
   private readonly apiUrl = 'http://localhost:8080/api/equipments';
 
   findAll(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(this.apiUrl);
+    return this.http.get<Equipment[]>(this.apiUrl, { withCredentials: true });
   }
 
   create(equipment: EquipmentPayload): Observable<Equipment> {
-    return this.http.post<Equipment>(this.apiUrl, equipment);
+    return this.http.post<Equipment>(this.apiUrl, equipment, { withCredentials: true });
   }
 
   update(id: number, equipment: EquipmentPayload): Observable<Equipment> {
-    return this.http.put<Equipment>(`${this.apiUrl}/${id}`, equipment);
+    return this.http.put<Equipment>(`${this.apiUrl}/${id}`, equipment, { withCredentials: true });
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 }

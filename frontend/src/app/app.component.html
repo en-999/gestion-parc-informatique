@@ -1,3 +1,55 @@
+@if (authChecking) {
+  <main class="login-page">
+    <p class="login-loading">Vérification de la session…</p>
+  </main>
+} @else if (!isAuthenticated) {
+  <main class="login-page">
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="login-brand">
+        <span class="brand-mark">L</span>
+        <div>
+          <p class="eyebrow">LONAB · PARC INFORMATIQUE</p>
+          <p class="brand-name">Gestion de parc</p>
+        </div>
+      </div>
+      <div class="login-heading">
+        <p class="eyebrow">ESPACE SÉCURISÉ</p>
+        <h1 id="login-title">Bienvenue</h1>
+        <p>Connectez-vous pour accéder à la gestion des équipements informatiques.</p>
+      </div>
+      <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+        <label>
+          Identifiant
+          <input
+            name="username"
+            [(ngModel)]="loginUsername"
+            required
+            autocomplete="username"
+            placeholder="Ex. admin"
+          />
+        </label>
+        <label>
+          Mot de passe
+          <input
+            name="password"
+            [(ngModel)]="loginPassword"
+            required
+            type="password"
+            autocomplete="current-password"
+            placeholder="Votre mot de passe"
+          />
+        </label>
+        @if (loginError) {
+          <p class="login-error" role="alert">{{ loginError }}</p>
+        }
+        <button class="login-button" type="submit" [disabled]="loginForm.invalid">
+          Se connecter
+        </button>
+      </form>
+      <p class="login-note">Accès réservé aux utilisateurs autorisés.</p>
+    </section>
+  </main>
+} @else {
 <main class="dashboard">
   <header class="page-header">
     <div>
@@ -5,9 +57,12 @@
       <h1>Équipements</h1>
       <p class="subtitle">Consultez et gérez les équipements informatiques de l'organisation.</p>
     </div>
-    <span class="count">
-      {{ filteredEquipments.length }} équipement{{ filteredEquipments.length > 1 ? 's' : '' }}
-    </span>
+    <div class="header-actions">
+      <span class="count">
+        {{ filteredEquipments.length }} équipement{{ filteredEquipments.length > 1 ? 's' : '' }}
+      </span>
+      <button class="logout-button" type="button" (click)="logout()">Se déconnecter</button>
+    </div>
   </header>
 
   <section class="stats-grid" aria-label="Résumé du parc informatique">
@@ -170,3 +225,4 @@
     <p class="feedback error" role="alert">{{ errorMessage }}</p>
   }
 </main>
+}
