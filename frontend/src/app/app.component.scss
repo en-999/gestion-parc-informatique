@@ -365,13 +365,14 @@ h2 {
 
 .equipment-form {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 1rem;
   padding: 1.5rem;
 }
 
 label {
   display: grid;
+  min-width: 0;
   gap: .45rem;
   color: #475569;
   font-size: .8rem;
@@ -380,6 +381,8 @@ label {
 
 input {
   min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
   padding: .65rem .75rem;
   border: 1px solid #cbd5e1;
   border-radius: .5rem;
@@ -456,6 +459,9 @@ button {
 }
 
 select {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
   padding: .65rem .75rem;
   border: 1px solid #cbd5e1;
   border-radius: .5rem;
@@ -586,7 +592,7 @@ td {
   border: 0;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 980px) {
   .login-card {
     padding: 2rem 1.5rem;
   }
@@ -626,7 +632,7 @@ td {
   }
 
   .equipment-form {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   }
 
   .filters {
@@ -645,11 +651,7 @@ td {
   }
 }
 
-@media (max-width: 400px) {
-  .equipment-form {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 560px) {
   .stats-grid {
     grid-template-columns: 1fr;
   }
