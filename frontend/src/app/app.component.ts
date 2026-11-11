@@ -17,6 +17,7 @@ export class AppComponent {
   loginUsername = '';
   loginPassword = '';
   loginError = '';
+  settingsOpen = false;
   equipments: Equipment[] = [];
   searchTerm = '';
   statusFilter = '';
@@ -74,11 +75,16 @@ export class AppComponent {
     });
   }
 
+  toggleSettings(): void {
+    this.settingsOpen = !this.settingsOpen;
+  }
+
   private resetAuthentication(): void {
     this.isAuthenticated = false;
     this.loginUsername = '';
     this.loginPassword = '';
     this.loginError = '';
+    this.settingsOpen = false;
     this.equipments = [];
   }
 
