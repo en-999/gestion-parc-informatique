@@ -152,16 +152,15 @@
 
 .settings-button {
   display: grid;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: .65rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: .45rem;
   place-items: center;
-  border: 1px solid #bfdbfe;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #eff6ff, #dbeafe);
-  color: #1d4ed8;
-  box-shadow: 0 5px 12px rgb(37 99 235 / 14%), inset 0 1px 0 rgb(255 255 255 / 80%);
-  transition: background .2s ease, box-shadow .2s ease, color .2s ease, transform .2s ease;
+  border: 1px solid transparent;
+  border-radius: .55rem;
+  background: transparent;
+  color: #64748b;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
 }
 
 .settings-button:hover,
@@ -170,27 +169,20 @@
 }
 
 .settings-button:hover {
-  border-color: #93c5fd;
-  background: linear-gradient(145deg, #dbeafe, #bfdbfe);
-  box-shadow: 0 8px 18px rgb(37 99 235 / 22%), inset 0 1px 0 rgb(255 255 255 / 90%);
-  color: #1e40af;
-  transform: translateY(-1px);
+  border-color: #e2e8f0;
+  background: #f8fafc;
+  color: #2563eb;
 }
 
 .settings-button:focus-visible {
-  outline: 3px solid #93c5fd;
-  outline-offset: 3px;
-}
-
-.settings-button:active {
-  box-shadow: 0 3px 8px rgb(37 99 235 / 18%);
-  transform: translateY(0);
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
 }
 
 .settings-icon {
   display: block;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.1rem;
+  height: 1.1rem;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
