@@ -61,9 +61,15 @@
       <span class="count">
         {{ filteredEquipments.length }} équipement{{ filteredEquipments.length > 1 ? 's' : '' }}
       </span>
-      <button class="settings-button" type="button" (click)="toggleSettings()" [attr.aria-expanded]="settingsOpen">
+      <button
+        class="settings-button"
+        type="button"
+        (click)="toggleSettings()"
+        [attr.aria-expanded]="settingsOpen"
+        aria-label="Ouvrir les paramètres"
+        title="Paramètres"
+      >
         <span class="settings-icon" aria-hidden="true">⚙</span>
-        Paramètres
       </button>
     </div>
   </header>
