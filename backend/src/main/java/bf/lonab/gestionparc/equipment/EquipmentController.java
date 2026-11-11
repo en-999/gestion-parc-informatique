@@ -21,9 +21,14 @@ import java.util.List;
 public class EquipmentController {
 
     private final EquipmentRepository equipmentRepository;
+    private final EquipmentNumberService equipmentNumberService;
 
-    public EquipmentController(EquipmentRepository equipmentRepository) {
+    public EquipmentController(
+            EquipmentRepository equipmentRepository,
+            EquipmentNumberService equipmentNumberService
+    ) {
         this.equipmentRepository = equipmentRepository;
+        this.equipmentNumberService = equipmentNumberService;
     }
 
     @GetMapping
@@ -35,7 +40,7 @@ public class EquipmentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Equipment create(@RequestBody Equipment equipment) {
         validate(equipment);
-        ensureInventoryNumberAvailable(equipment.getInventoryNumber(), null);
+        equipment.setInventoryNumber(equipmentNumberService.nextNumber(equipment.getType()));
         equipment.setId(null);
         return equipmentRepository.save(equipment);
     }
@@ -43,10 +48,12 @@ public class EquipmentController {
     @PutMapping("/{id}")
     public Equipment update(@PathVariable Long id, @RequestBody Equipment equipment) {
         validate(equipment);
-        if (!equipmentRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Équipement introuvable");
-        }
-        ensureInventoryNumberAvailable(equipment.getInventoryNumber(), id);
+        Equipment existing = equipmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Équipement introuvable"
+                ));
+        equipment.setInventoryNumber(existing.getInventoryNumber());
         equipment.setId(id);
         return equipmentRepository.save(equipment);
     }
@@ -62,26 +69,14 @@ public class EquipmentController {
 
     private void validate(Equipment equipment) {
         if (equipment == null
-                || isBlank(equipment.getInventoryNumber())
                 || isBlank(equipment.getName())
                 || isBlank(equipment.getType())
                 || isBlank(equipment.getStatus())
-                || isBlank(equipment.getProvenance())) {
+                || isBlank(equipment.getProvenance())
+                || !equipmentNumberService.supportsType(equipment.getType())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Les champs inventoryNumber, name, type, status et provenance sont obligatoires"
-            );
-        }
-    }
-
-    private void ensureInventoryNumberAvailable(String inventoryNumber, Long currentId) {
-        boolean alreadyUsed = currentId == null
-                ? equipmentRepository.existsByInventoryNumberIgnoreCase(inventoryNumber)
-                : equipmentRepository.existsByInventoryNumberIgnoreCaseAndIdNot(inventoryNumber, currentId);
-        if (alreadyUsed) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Le numéro d'inventaire est déjà utilisé"
+                    "Les champs name, type, status et provenance sont obligatoires et le type doit être reconnu"
             );
         }
     }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { Equipment } from './equipment';
+import { Equipment, EquipmentPayload } from './equipment';
 import { EquipmentService } from './equipment.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class AppComponent {
   readonly pageSize = 10;
   readonly equipmentTypes = ['Ordinateur portable', 'Ordinateur de bureau', 'Écran', 'Imprimante', 'Serveur', 'Réseau', 'Autre'];
   readonly equipmentStatuses = ['En service', 'En maintenance', 'Hors service', 'Stock'];
-  newEquipment: Omit<Equipment, 'id'> = this.emptyEquipment();
+  newEquipment: EquipmentPayload = this.emptyEquipment();
   editingEquipmentId: number | null = null;
   loading = true;
   submitting = false;
@@ -109,7 +109,6 @@ export class AppComponent {
   editEquipment(equipment: Equipment): void {
     this.editingEquipmentId = equipment.id;
     this.newEquipment = {
-      inventoryNumber: equipment.inventoryNumber,
       name: equipment.name,
       type: equipment.type,
       status: equipment.status,
@@ -163,9 +162,8 @@ export class AppComponent {
     });
   }
 
-  private emptyEquipment(): Omit<Equipment, 'id'> {
+  private emptyEquipment(): EquipmentPayload {
     return {
-      inventoryNumber: '',
       name: '',
       type: '',
       status: '',

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Equipment } from './equipment';
+import { Equipment, EquipmentPayload } from './equipment';
 
 @Injectable({ providedIn: 'root' })
 export class EquipmentService {
@@ -13,11 +13,11 @@ export class EquipmentService {
     return this.http.get<Equipment[]>(this.apiUrl);
   }
 
-  create(equipment: Omit<Equipment, 'id'>): Observable<Equipment> {
+  create(equipment: EquipmentPayload): Observable<Equipment> {
     return this.http.post<Equipment>(this.apiUrl, equipment);
   }
 
-  update(id: number, equipment: Omit<Equipment, 'id'>): Observable<Equipment> {
+  update(id: number, equipment: EquipmentPayload): Observable<Equipment> {
     return this.http.put<Equipment>(`${this.apiUrl}/${id}`, equipment);
   }
 

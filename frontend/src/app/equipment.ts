@@ -6,3 +6,5 @@ export interface Equipment {
   status: string;
   provenance: string;
 }
+
+export type EquipmentPayload = Omit<Equipment, 'id' | 'inventoryNumber'>;
