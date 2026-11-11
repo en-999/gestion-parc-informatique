@@ -54,7 +54,8 @@ public class EquipmentController {
                         "Équipement introuvable"
                 ));
         equipment.setInventoryNumber(existing.getInventoryNumber());
-        equipment.setId(id);
+                equipment.setCreatedAt(existing.getCreatedAt());
+                equipment.setId(id);
         return equipmentRepository.save(equipment);
     }
 

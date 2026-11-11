@@ -185,6 +185,7 @@
               <th>Type</th>
               <th>Statut</th>
               <th>Provenance</th>
+              <th>Enregistré le</th>
               <th><span class="sr-only">Actions</span></th>
             </tr>
           </thead>
@@ -196,6 +197,7 @@
                 <td>{{ equipment.type }}</td>
                 <td><span class="status">{{ equipment.status }}</span></td>
                 <td>{{ equipment.provenance || 'Non renseignée' }}</td>
+                <td>{{ equipment.createdAt ? (equipment.createdAt | date: 'dd/MM/yyyy HH:mm:ss') : 'Non disponible' }}</td>
                 <td class="actions">
                   <button type="button" class="edit-button" (click)="editEquipment(equipment)">
                     Modifier

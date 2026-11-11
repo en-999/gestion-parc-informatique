@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Equipment, EquipmentPayload } from './equipment';
 import { EquipmentService } from './equipment.service';
@@ -8,7 +9,7 @@ import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, RouterLink, RouterOutlet],
+  imports: [DatePipe, FormsModule, RouterLink, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -5,6 +5,7 @@ export interface Equipment {
   type: string;
   status: string;
   provenance: string;
+  createdAt: string | null;
 }
 
-export type EquipmentPayload = Omit<Equipment, 'id' | 'inventoryNumber'>;
+export type EquipmentPayload = Omit<Equipment, 'id' | 'inventoryNumber' | 'createdAt'>;

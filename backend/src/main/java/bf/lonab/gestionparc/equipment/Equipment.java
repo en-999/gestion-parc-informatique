@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.PrePersist;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "equipments")
@@ -20,6 +23,8 @@ public class Equipment {
     private String type;
     private String status;
     private String provenance;
+    @Column(updatable = false)
+    private Instant createdAt;
 
     public Equipment() {
     }
@@ -78,5 +83,20 @@ public class Equipment {
 
     public void setProvenance(String provenance) {
         this.provenance = provenance;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    void setCreationTimestamp() {
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
     }
 }
