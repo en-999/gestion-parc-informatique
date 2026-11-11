@@ -19,6 +19,14 @@ export class AuthService {
     );
   }
 
+  register(username: string, password: string, passwordConfirmation: string): Observable<AuthUser> {
+    return this.http.post<AuthUser>(
+      `${this.apiUrl}/register`,
+      { username, password, passwordConfirmation },
+      { withCredentials: true }
+    );
+  }
+
   currentUser(): Observable<AuthUser> {
     return this.http.get<AuthUser>(`${this.apiUrl}/me`, { withCredentials: true });
   }

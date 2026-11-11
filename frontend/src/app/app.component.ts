@@ -20,6 +20,11 @@ export class AppComponent {
   loginUsername = '';
   loginPassword = '';
   loginError = '';
+  registerMode = false;
+  registerUsername = '';
+  registerPassword = '';
+  registerPasswordConfirmation = '';
+  registerError = '';
   equipments: Equipment[] = [];
   searchTerm = '';
   statusFilter = '';
@@ -70,6 +75,40 @@ export class AppComponent {
     });
   }
 
+  register(): void {
+    this.registerError = '';
+    if (this.registerPassword !== this.registerPasswordConfirmation) {
+      this.registerError = 'Les mots de passe ne correspondent pas.';
+      return;
+    }
+
+    this.authService.register(
+      this.registerUsername,
+      this.registerPassword,
+      this.registerPasswordConfirmation
+    ).subscribe({
+      next: () => {
+        this.isAuthenticated = true;
+        this.loadEquipments();
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          this.registerError = 'Cet identifiant est déjà utilisé.';
+        } else if (error.status === 400) {
+          this.registerError = error.error?.detail || 'Vérifiez les informations saisies.';
+        } else {
+          this.registerError = 'L’inscription est momentanément indisponible.';
+        }
+      }
+    });
+  }
+
+  switchAuthMode(): void {
+    this.registerMode = !this.registerMode;
+    this.loginError = '';
+    this.registerError = '';
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => this.resetAuthentication(),
@@ -82,6 +121,11 @@ export class AppComponent {
     this.loginUsername = '';
     this.loginPassword = '';
     this.loginError = '';
+    this.registerMode = false;
+    this.registerUsername = '';
+    this.registerPassword = '';
+    this.registerPasswordConfirmation = '';
+    this.registerError = '';
     this.equipments = [];
   }
 

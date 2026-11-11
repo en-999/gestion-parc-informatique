@@ -82,6 +82,21 @@
   font-size: .875rem;
 }
 
+.auth-switch-button {
+  display: block;
+  margin: 1.25rem auto 0;
+  padding: .25rem .5rem;
+  background: transparent;
+  color: #2563eb;
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.auth-switch-button:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
 .login-note {
   margin: 1.75rem 0 0;
   color: #94a3b8;
