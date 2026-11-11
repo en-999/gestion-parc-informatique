@@ -1,23 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Equipment, EquipmentPayload } from './equipment';
 import { EquipmentService } from './equipment.service';
 import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  readonly router = inject(Router);
   isAuthenticated = false;
   authChecking = true;
   loginUsername = '';
   loginPassword = '';
   loginError = '';
-  settingsOpen = false;
   equipments: Equipment[] = [];
   searchTerm = '';
   statusFilter = '';
@@ -75,16 +76,11 @@ export class AppComponent {
     });
   }
 
-  toggleSettings(): void {
-    this.settingsOpen = !this.settingsOpen;
-  }
-
   private resetAuthentication(): void {
     this.isAuthenticated = false;
     this.loginUsername = '';
     this.loginPassword = '';
     this.loginError = '';
-    this.settingsOpen = false;
     this.equipments = [];
   }
 

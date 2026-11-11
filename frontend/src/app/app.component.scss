@@ -99,6 +99,34 @@
   padding: 3.5rem 1.5rem;
 }
 
+.settings-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem;
+}
+
+.settings-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.settings-page-header h1 {
+  margin-bottom: .65rem;
+}
+
+.settings-subtitle {
+  color: #64748b;
+}
+
+.back-button {
+  padding: .65rem .85rem;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
 .page-header,
 .panel-header {
   display: flex;
@@ -543,6 +571,14 @@ td {
 
   .page-header {
     display: block;
+  }
+
+  .settings-page-header {
+    display: block;
+  }
+
+  .back-button {
+    margin-top: 1rem;
   }
 
   .header-actions {
