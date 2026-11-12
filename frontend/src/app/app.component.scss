@@ -2,6 +2,16 @@
   display: block;
 }
 
+.inventory-button {
+  padding: .55rem .85rem;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.inventory-button:hover {
+  background: #dbeafe;
+}
+
 .login-page {
   display: grid;
   min-height: 100vh;
@@ -10,6 +20,34 @@
   background:
     radial-gradient(circle at 15% 15%, rgb(37 99 235 / 14%), transparent 32rem),
     #f8fafc;
+}
+
+.inventory-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem;
+}
+
+.inventory-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.inventory-page-header h1 {
+  margin-bottom: .65rem;
+}
+
+.inventory-panel {
+  margin-top: 0;
+}
+
+.inventory-count {
+  margin: .4rem 0 0;
+  color: #64748b;
+  font-size: .85rem;
 }
 
 .login-card {
@@ -159,6 +197,7 @@
 }
 
 .settings-button,
+.inventory-button,
 .logout-button {
   padding: .55rem .85rem;
   background: #fff;
@@ -643,6 +682,14 @@ td {
   }
 
   .settings-page-header {
+    display: block;
+  }
+
+  .inventory-page {
+    padding: 2rem 1rem;
+  }
+
+  .inventory-page-header {
     display: block;
   }
 
