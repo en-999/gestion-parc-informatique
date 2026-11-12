@@ -436,6 +436,10 @@ h2 {
   padding: 1.5rem;
 }
 
+.description-field {
+  grid-column: 1 / -1;
+}
+
 label {
   display: grid;
   min-width: 0;

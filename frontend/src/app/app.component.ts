@@ -327,6 +327,19 @@ export class AppComponent {
           : '';
   }
 
+  get descriptionPlaceholder(): string {
+    switch (this.normalizeStatus(this.newEquipment.status).trim().toLowerCase()) {
+      case 'en panne':
+        return 'Décrivez la panne ou les symptômes constatés';
+      case 'hors service':
+        return 'Indiquez pourquoi cet équipement est hors service';
+      case 'stock':
+        return 'Précisez le type de stock ou sa destination';
+      default:
+        return 'Ajoutez une description de l’équipement';
+    }
+  }
+
   private getSaveErrorMessage(error: HttpErrorResponse, action = 'enregistrer'): string {
     if (error.status === 409) {
       return 'Ce numéro d’inventaire est déjà utilisé.';

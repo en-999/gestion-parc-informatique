@@ -182,7 +182,7 @@
           [(ngModel)]="newEquipment.description"
           rows="3"
           maxlength="1000"
-          placeholder="Décrivez la panne, la raison de la mise hors service ou le type de stock"
+          [placeholder]="descriptionPlaceholder"
         ></textarea>
       </label>
       <div class="form-actions">
