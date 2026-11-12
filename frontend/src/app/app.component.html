@@ -252,8 +252,13 @@
                   <button type="button" class="edit-button" (click)="editEquipment(equipment)">
                     Modifier
                   </button>
-                  <button type="button" class="delete-button" (click)="deleteEquipment(equipment.id)">
-                    Supprimer
+                  <button
+                    type="button"
+                    class="delete-button"
+                    (click)="deleteEquipment(equipment.id)"
+                    [disabled]="deletingEquipmentId !== null"
+                  >
+                    {{ deletingEquipmentId === equipment.id ? 'Suppression…' : 'Supprimer' }}
                   </button>
                 </td>
               </tr>

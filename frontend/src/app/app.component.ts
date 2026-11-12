@@ -36,6 +36,7 @@ export class AppComponent {
   editingEquipmentId: number | null = null;
   loading = true;
   submitting = false;
+  deletingEquipmentId: number | null = null;
   errorMessage = '';
   successMessage = '';
 
@@ -254,16 +255,30 @@ export class AppComponent {
   }
 
   deleteEquipment(id: number): void {
+    const equipment = this.equipments.find((item) => item.id === id);
+    if (!equipment || !window.confirm(`Supprimer l’équipement « ${equipment.name} » ? Cette action est irréversible.`)) {
+      return;
+    }
+
     this.errorMessage = '';
     this.successMessage = '';
+    this.deletingEquipmentId = id;
     this.equipmentService.delete(id).subscribe({
       next: () => {
         this.equipments = this.equipments.filter((equipment) => equipment.id !== id);
+        if (this.editingEquipmentId === id) {
+          this.editingEquipmentId = null;
+          this.newEquipment = this.emptyEquipment();
+        }
         this.goToPage(this.currentPage);
+        this.deletingEquipmentId = null;
         this.successMessage = 'Équipement supprimé avec succès.';
       },
-      error: () => {
-        this.errorMessage = 'La suppression de l’équipement a échoué.';
+      error: (error: HttpErrorResponse) => {
+        this.deletingEquipmentId = null;
+        this.errorMessage = error.status === 404
+          ? 'Cet équipement n’existe plus dans la base de données.'
+          : 'La suppression de l’équipement a échoué.';
       }
     });
   }

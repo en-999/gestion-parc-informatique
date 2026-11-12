@@ -596,6 +596,11 @@ td {
   color: #b91c1c;
 }
 
+.delete-button:disabled {
+  cursor: wait;
+  opacity: .55;
+}
+
 .edit-button {
   padding: .45rem .7rem;
   background: transparent;
