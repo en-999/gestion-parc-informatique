@@ -3,13 +3,34 @@
 }
 
 .inventory-button {
-  padding: .55rem .85rem;
-  background: #eff6ff;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .5rem .75rem;
+  border: 1px solid #bfdbfe;
+  border-radius: .55rem;
+  background: #fff;
   color: #1d4ed8;
+  font-size: .8rem;
+  font-weight: 600;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.inventory-button::before {
+  content: '▤';
+  color: #2563eb;
+  font-size: .9rem;
+  line-height: 1;
 }
 
 .inventory-button:hover {
-  background: #dbeafe;
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.inventory-button:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
 }
 
 .login-page {
