@@ -154,7 +154,8 @@
   display: flex;
   align-items: center;
   gap: .75rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  margin-left: auto;
 }
 
 .settings-button,
@@ -313,6 +314,7 @@ h1 {
 }
 
 .count {
+  white-space: nowrap;
   padding: .55rem .85rem;
   border-radius: 999px;
   background: #dbeafe;
@@ -639,8 +641,8 @@ td {
   }
 
   .header-actions {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   .settings-grid {
@@ -653,7 +655,7 @@ td {
 
   .count {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 0;
   }
 
   .equipment-form {
