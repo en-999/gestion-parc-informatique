@@ -255,7 +255,7 @@
                     (click)="editEquipment(equipment)"
                     [disabled]="submitting || deletingEquipmentId !== null"
                   >
-                    {{ editingEquipmentId === equipment.id ? 'Modification en cours…' : 'Modifier' }}
+                    {{ submitting && editingEquipmentId === equipment.id ? 'Modification en cours…' : 'Modifier' }}
                   </button>
                   <button
                     type="button"
