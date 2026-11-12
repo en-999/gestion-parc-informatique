@@ -83,7 +83,7 @@ import { EquipmentService } from './equipment.service';
                     <td>{{ equipment.inventoryNumber }}</td>
                     <td>{{ equipment.name }}</td>
                     <td>{{ equipment.type }}</td>
-                    <td><span class="status">{{ equipment.status }}</span></td>
+                    <td><span class="status">{{ normalizeStatus(equipment.status) }}</span></td>
                     <td>{{ equipment.provenance || 'Non renseignée' }}</td>
                     <td>{{ equipment.createdAt ? (equipment.createdAt | date: 'dd/MM/yyyy HH:mm:ss') : 'Non disponible' }}</td>
                   </tr>
@@ -129,13 +129,17 @@ export class InventoryComponent implements OnInit {
       const matchesSearch = !search
         || [equipment.inventoryNumber, equipment.name, equipment.type, equipment.provenance || '']
           .some((value) => value.toLowerCase().includes(search));
-      return matchesSearch && (!this.statusFilter || equipment.status === this.statusFilter);
+      return matchesSearch && (!this.statusFilter || this.normalizeStatus(equipment.status) === this.statusFilter);
     });
   }
 
   get statuses(): string[] {
-    return [...new Set(this.equipments.map((equipment) => equipment.status))]
+    return [...new Set(this.equipments.map((equipment) => this.normalizeStatus(equipment.status)))]
       .sort((first, second) => first.localeCompare(second));
+  }
+
+  normalizeStatus(status: string): string {
+    return status.trim().toLowerCase() === 'en maintenance' ? 'En panne' : status;
   }
 
   get totalPages(): number {

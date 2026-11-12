@@ -30,7 +30,7 @@ export class AppComponent {
   currentPage = 1;
   readonly pageSize = 10;
   readonly equipmentTypes = ['Ordinateur portable', 'Ordinateur de bureau', 'Écran', 'Imprimante', 'Serveur', 'Réseau', 'Autre'];
-  readonly equipmentStatuses = ['En service', 'En maintenance', 'Hors service', 'Stock'];
+  readonly equipmentStatuses = ['En service', 'En panne', 'Hors service', 'Stock'];
   newEquipment: EquipmentPayload = this.emptyEquipment();
   editingEquipmentId: number | null = null;
   loading = true;
@@ -145,13 +145,13 @@ export class AppComponent {
       const matchesSearch = !search
         || [equipment.inventoryNumber, equipment.name, equipment.type, equipment.provenance || '']
           .some((value) => value.toLowerCase().includes(search));
-      const matchesStatus = !this.statusFilter || equipment.status === this.statusFilter;
+      const matchesStatus = !this.statusFilter || this.normalizeStatus(equipment.status) === this.statusFilter;
       return matchesSearch && matchesStatus;
     });
   }
 
   get statuses(): string[] {
-    return [...new Set(this.equipments.map((equipment) => equipment.status))]
+    return [...new Set(this.equipments.map((equipment) => this.normalizeStatus(equipment.status)))]
       .sort((first, second) => first.localeCompare(second));
   }
 
@@ -159,7 +159,7 @@ export class AppComponent {
     return [
       { label: 'Total', value: this.equipments.length, tone: 'blue' },
       { label: 'En service', value: this.countByStatus('en service'), tone: 'green' },
-      { label: 'En maintenance', value: this.countByStatus('maintenance'), tone: 'orange' },
+      { label: 'En panne', value: this.countByStatus('en panne'), tone: 'orange' },
       { label: 'Hors service', value: this.countByStatus('hors service'), tone: 'red' }
     ];
   }
@@ -225,7 +225,7 @@ export class AppComponent {
     this.newEquipment = {
       name: equipment.name,
       type: equipment.type,
-      status: equipment.status,
+      status: this.normalizeStatus(equipment.status),
       provenance: equipment.provenance ?? ''
     };
     this.errorMessage = '';
@@ -306,7 +306,11 @@ export class AppComponent {
   }
 
   private countByStatus(status: string): number {
-    return this.equipments.filter((equipment) => equipment.status.trim().toLowerCase() === status).length;
+    return this.equipments.filter((equipment) => this.normalizeStatus(equipment.status).toLowerCase() === status).length;
+  }
+
+  normalizeStatus(status: string): string {
+    return status.trim().toLowerCase() === 'en maintenance' ? 'En panne' : status;
   }
 
   private getSaveErrorMessage(error: HttpErrorResponse, action = 'enregistrer'): string {
