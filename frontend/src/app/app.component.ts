@@ -115,6 +115,10 @@ export class AppComponent {
     this.registerError = '';
   }
 
+  openInventory(): void {
+    void this.router.navigateByUrl('/inventory');
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => this.resetAuthentication(),

@@ -111,7 +111,7 @@
       <span class="count">
         {{ filteredEquipments.length }} équipement{{ filteredEquipments.length > 1 ? 's' : '' }}
       </span>
-      <button class="inventory-button" type="button" routerLink="/inventory">
+      <button class="inventory-button" type="button" (click)="openInventory()">
         Voir l’inventaire
       </button>
       <button class="settings-button" type="button" routerLink="/settings" aria-label="Ouvrir les paramètres" title="Paramètres">
