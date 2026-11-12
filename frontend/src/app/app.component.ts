@@ -214,6 +214,10 @@ export class AppComponent {
   }
 
   editEquipment(equipment: Equipment): void {
+    if (this.submitting || this.deletingEquipmentId !== null) {
+      return;
+    }
+
     this.editingEquipmentId = equipment.id;
     this.newEquipment = {
       name: equipment.name,
@@ -249,7 +253,9 @@ export class AppComponent {
       },
       error: (error: HttpErrorResponse) => {
         this.submitting = false;
-        this.errorMessage = this.getSaveErrorMessage(error, 'modifier');
+        this.errorMessage = error.status === 404
+          ? 'Cet équipement n’existe plus dans la base de données.'
+          : this.getSaveErrorMessage(error, 'modifier');
       }
     });
   }

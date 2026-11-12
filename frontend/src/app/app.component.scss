@@ -607,6 +607,11 @@ td {
   color: #1d4ed8;
 }
 
+.edit-button:disabled {
+  cursor: wait;
+  opacity: .55;
+}
+
 .edit-button:hover,
 .delete-button:hover,
 .refresh-button:hover {

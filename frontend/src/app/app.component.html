@@ -249,8 +249,13 @@
                 <td>{{ equipment.provenance || 'Non renseignée' }}</td>
                 <td>{{ equipment.createdAt ? (equipment.createdAt | date: 'dd/MM/yyyy HH:mm:ss') : 'Non disponible' }}</td>
                 <td class="actions">
-                  <button type="button" class="edit-button" (click)="editEquipment(equipment)">
-                    Modifier
+                  <button
+                    type="button"
+                    class="edit-button"
+                    (click)="editEquipment(equipment)"
+                    [disabled]="submitting || deletingEquipmentId !== null"
+                  >
+                    {{ editingEquipmentId === equipment.id ? 'Modification en cours…' : 'Modifier' }}
                   </button>
                   <button
                     type="button"
