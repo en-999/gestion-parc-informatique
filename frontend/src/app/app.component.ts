@@ -30,7 +30,7 @@ export class AppComponent {
   currentPage = 1;
   readonly pageSize = 10;
   readonly equipmentTypes = ['Ordinateur portable', 'Ordinateur de bureau', 'Écran', 'Imprimante', 'Serveur', 'Réseau', 'Autre'];
-  readonly equipmentStatuses = ['En service', 'En panne', 'Hors service', 'Stock'];
+  readonly equipmentStatuses = ['En panne', 'Hors service', 'Stock'];
   newEquipment: EquipmentPayload = this.emptyEquipment();
   editingEquipmentId: number | null = null;
   loading = true;
@@ -151,16 +151,17 @@ export class AppComponent {
   }
 
   get statuses(): string[] {
-    return [...new Set(this.equipments.map((equipment) => this.normalizeStatus(equipment.status)))]
-      .sort((first, second) => first.localeCompare(second));
+    return this.equipmentStatuses.filter((status) =>
+      this.equipments.some((equipment) => this.normalizeStatus(equipment.status) === status)
+    );
   }
 
   get equipmentStats(): { label: string; value: number; tone: string }[] {
     return [
       { label: 'Total', value: this.equipments.length, tone: 'blue' },
-      { label: 'En service', value: this.countByStatus('en service'), tone: 'green' },
       { label: 'En panne', value: this.countByStatus('en panne'), tone: 'orange' },
-      { label: 'Hors service', value: this.countByStatus('hors service'), tone: 'red' }
+      { label: 'Hors service', value: this.countByStatus('hors service'), tone: 'red' },
+      { label: 'Stock', value: this.countByStatus('stock'), tone: 'blue' }
     ];
   }
 
@@ -311,6 +312,17 @@ export class AppComponent {
 
   normalizeStatus(status: string): string {
     return status.trim().toLowerCase() === 'en maintenance' ? 'En panne' : status;
+  }
+
+  statusClass(status: string): string {
+    const normalizedStatus = this.normalizeStatus(status).trim().toLowerCase();
+    return normalizedStatus === 'en panne'
+      ? 'status-panne'
+      : normalizedStatus === 'hors service'
+        ? 'status-hors-service'
+        : normalizedStatus === 'stock'
+          ? 'status-stock'
+          : '';
   }
 
   private getSaveErrorMessage(error: HttpErrorResponse, action = 'enregistrer'): string {
