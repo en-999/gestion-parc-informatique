@@ -13,7 +13,7 @@ import { EquipmentService } from './equipment.service';
     <main class="inventory-page">
       <header class="inventory-page-header">
         <div>
-          <p class="eyebrow">LONAB · PARC INFORMATIQUE</p>
+          <p class="eyebrow">GESTION · PARC INFORMATIQUE</p>
           <h1>Inventaire des équipements</h1>
           <p class="subtitle">Consultez l’ensemble des équipements enregistrés dans le parc informatique.</p>
         </div>
