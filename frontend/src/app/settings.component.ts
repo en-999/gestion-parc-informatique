@@ -53,6 +53,10 @@ export class SettingsComponent {
   private readonly router = inject(Router);
 
   logout(): void {
+    if (!window.confirm('Voulez-vous vraiment vous déconnecter ?')) {
+      return;
+    }
+
     this.authService.logout().subscribe({
       next: () => this.redirectToLogin(),
       error: () => this.redirectToLogin()
