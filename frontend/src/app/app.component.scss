@@ -445,7 +445,8 @@ label {
   font-weight: 600;
 }
 
-input {
+input,
+textarea {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
@@ -457,7 +458,13 @@ input {
   font-size: .875rem;
 }
 
-input:focus {
+textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
   border-color: #2563eb;
   outline: 2px solid #bfdbfe;
 }

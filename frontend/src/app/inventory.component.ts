@@ -74,6 +74,7 @@ import { EquipmentService } from './equipment.service';
                   <th>Type</th>
                   <th>Statut</th>
                   <th>Provenance</th>
+                  <th>Description</th>
                   <th>Enregistré le</th>
                 </tr>
               </thead>
@@ -85,6 +86,7 @@ import { EquipmentService } from './equipment.service';
                     <td>{{ equipment.type }}</td>
                     <td><span class="status" [class]="statusClass(equipment.status)">{{ normalizeStatus(equipment.status) }}</span></td>
                     <td>{{ equipment.provenance || 'Non renseignée' }}</td>
+                    <td>{{ equipment.description || 'Non renseignée' }}</td>
                     <td>{{ equipment.createdAt ? (equipment.createdAt | date: 'dd/MM/yyyy HH:mm:ss') : 'Non disponible' }}</td>
                   </tr>
                 }
@@ -127,7 +129,7 @@ export class InventoryComponent implements OnInit {
     const search = this.searchTerm.trim().toLowerCase();
     return this.equipments.filter((equipment) => {
       const matchesSearch = !search
-        || [equipment.inventoryNumber, equipment.name, equipment.type, equipment.provenance || '']
+        || [equipment.inventoryNumber, equipment.name, equipment.type, equipment.provenance || '', equipment.description || '']
           .some((value) => value.toLowerCase().includes(search));
       return matchesSearch && (!this.statusFilter || this.normalizeStatus(equipment.status) === this.statusFilter);
     });

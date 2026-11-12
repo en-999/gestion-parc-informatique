@@ -23,6 +23,8 @@ public class Equipment {
     private String type;
     private String status;
     private String provenance;
+    @Column(length = 1000)
+    private String description;
     @Column(updatable = false)
     private Instant createdAt;
 
@@ -83,6 +85,14 @@ public class Equipment {
 
     public void setProvenance(String provenance) {
         this.provenance = provenance;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Instant getCreatedAt() {

@@ -5,6 +5,7 @@ export interface Equipment {
   type: string;
   status: string;
   provenance: string;
+  description: string;
   createdAt: string | null;
 }
 
