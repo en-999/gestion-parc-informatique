@@ -54,8 +54,12 @@ export class SettingsComponent {
 
   logout(): void {
     this.authService.logout().subscribe({
-      next: () => this.router.navigateByUrl('/'),
-      error: () => this.router.navigateByUrl('/')
+      next: () => this.redirectToLogin(),
+      error: () => this.redirectToLogin()
     });
+  }
+
+  private redirectToLogin(): void {
+    void this.router.navigateByUrl('/').then(() => window.location.reload());
   }
 }

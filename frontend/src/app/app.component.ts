@@ -43,6 +43,12 @@ export class AppComponent {
     private readonly equipmentService: EquipmentService,
     private readonly authService: AuthService
   ) {
+    this.authService.authenticationState$.subscribe((isAuthenticated) => {
+      if (!isAuthenticated) {
+        this.resetAuthentication();
+      }
+    });
+
     this.authService.currentUser().subscribe({
       next: () => {
         this.isAuthenticated = true;

@@ -249,6 +249,11 @@
   background: #fff;
 }
 
+.settings-card > div {
+  min-width: 0;
+  flex: 1;
+}
+
 .settings-card-icon {
   color: #2563eb;
   font-size: 1.35rem;
@@ -278,6 +283,11 @@
 
 .settings-danger {
   border-color: #fecaca;
+}
+
+.logout-button {
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
