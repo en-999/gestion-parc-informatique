@@ -227,6 +227,10 @@ export class AppComponent {
     };
     this.errorMessage = '';
     this.successMessage = '';
+    document.getElementById('equipment-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.setTimeout(() => {
+      document.querySelector<HTMLInputElement>('#equipment-form input[name="name"]')?.focus();
+    }, 250);
   }
 
   cancelEdit(): void {
